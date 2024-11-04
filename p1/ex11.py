@@ -1,13 +1,13 @@
 n= int(input('digite um número: '))
-primos= 0
+count= 0
 num= 2
-while primos < n:
+while count < n:
     primo= True
-    for i in range(2, n):
-        if n % i == 0:
+    for i in range(2, num):
+        if num % i == 0:
             primo= False
             break
 if primo:
-    print(n)
-    primos+= 1
+    print(num)
+    count+= 1
     num+= 1

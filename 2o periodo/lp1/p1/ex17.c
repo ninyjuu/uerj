@@ -1,11 +1,12 @@
 /*
-Autor: <nome do aluno>
-Data: <data de hoje>
-Descrição: <o que o programa faz>
-Entrada: <o que o programa espera receber como entrada>
-Saída: <o que o programa retorna para o usuário>
-Restrições: possíveis restrições de entrada
+Autor: Júlia Nicolao Bansemer.
+Data: 13/04/2025.
+Descrição: x elevado a y.
+Entrada: Dois inteiros
+Saída: O resultado
+Restrições: Nenhuma
 */
+
 #include <stdio.h>
 int main() {
     int x,y;

@@ -1,16 +1,16 @@
-/*Faça uma função que receba um número e imprima sua tabuada de 1 a 10.
-Na função main,
-pergunte ao usuário qual tabuada ele deseja visualizar. */
-
 #include <stdio.h>
 
-int main(){
-    int n, tab;
+int tabuada(int numero) {
+    for (int i=1; i<=10; i++) {
+        printf("%dx%d= %d\n", numero, i, numero * i);
+    }
+    return 0;
+}
+
+int main() {
+    int n;
     printf("insira um numero: ");
     scanf("%d", &n);
-    for (int i=0; i<11; i++){
-        tab= i*n;
-        printf("%d\n", tab);
-    }
+    tabuada(n);
     return 0;
 }

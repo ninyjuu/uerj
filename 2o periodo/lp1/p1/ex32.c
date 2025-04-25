@@ -20,11 +20,11 @@ int inverso(int numero) {
 }
 
 
-char* palindromo(int numero) {
+int palindromo(int numero) {
     if (numero== inverso(numero)){
-        return "eh palindromo";
+        return 0;
     } else {
-        return "nao eh palindromo";
+        return 1;
     }
 }
 
@@ -32,7 +32,8 @@ int main() {
     int num;
     printf("digite um numero: ");
     scanf("%d", &num);
-    printf("%s\n", palindromo(num));
+    if (palindromo(num)) printf("eh palindromo");
+    else printf ("nao eh palindromo");
 
     return 0;
 }

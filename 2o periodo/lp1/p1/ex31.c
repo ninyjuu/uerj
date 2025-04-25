@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+int inverso(int numero) {
+    int invertido= 0;
+
+    int original= numero;
+    if (numero<0)
+        numero= -numero;
+
+    while (numero!=0) {
+        int digito= numero%10;
+        invertido= invertido*10+ digito;
+        numero= numero/10;
+    }
+
+    if (original<0)
+        return -invertido;
+    else
+        return invertido;
+}

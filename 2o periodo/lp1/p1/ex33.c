@@ -1,3 +1,11 @@
+/* Autor: Júlia Nicolao Bansemer.
+Data: 25/04/2025.
+Descrição: Simula o saque de um caixa eletrônico.
+Entrada: Um inteiro múltiplo de 10.
+Saída: Quantidade de notas de cada valor.
+Restrições: Não múltiplos de 10.
+*/
+
 #include <stdio.h>
 int sacar(int valor) {
     int notas100, notas50, notas20, notas10;

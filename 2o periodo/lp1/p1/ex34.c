@@ -1,3 +1,11 @@
+/* Autor: Júlia Nicolao Bansemer.
+Data: 25/04/2025.
+Descrição: Calcula a quantidade de LEDs necessários para exibir um número em um display.
+Entrada: Um inteiro.
+Saída: Quantidade de LEDs necessários para exibir o número.
+Restrições: Nenhuma.
+*/
+
 #include <stdio.h>
 
 int ledsAlgarismo(int a) {

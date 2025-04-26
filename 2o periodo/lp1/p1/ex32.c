@@ -1,3 +1,11 @@
+/* Autor: Júlia Nicolao Bansemer.
+Data: 25/04/2025.
+Descrição: Verifica se um número inteiro é palíndromo.
+Entrada: Um número inteiro.
+Saída: Informa se o número é ou não um palíndromo.
+Restrições: Nenhuma.
+*/
+
 #include <stdio.h>
 
 int inverso(int numero) {

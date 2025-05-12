@@ -1,0 +1,29 @@
+def cheio(a):
+    return a['tam'] == a['cap']  # verifica se o array está cheio
+
+def dobra(a):
+    # Aloca novo vetor com o dobro da capacidade
+    aux = [0] * (a['cap'] * 2)
+    for i in range(a['tam']):
+        aux[i] = a['v'][i]
+    a['cap'] *= 2
+    a['v'] = aux
+
+def insere(a, k):
+    if cheio(a):
+        dobra(a)  # Dobra a capacidade se o array estiver cheio
+    a['v'][a['tam']] = k  # Insere o valor na posição correta
+    a['tam'] += 1  # Incrementa o tamanho
+
+# Exemplo de uso:
+a = {
+    'cap': 4,      # capacidade inicial
+    'tam': 0,      # tamanho inicial
+    'v': [0] * 4   # vetor inicial
+}
+
+insere(a, 10)  # Insere o valor 10
+insere(a, 20)  # Insere o valor 20
+insere(a, 30)  # Insere o valor 30
+insere(a, 40)  # Insere o valor 40
+insere(a, 50)  # Insere o valor 50, aqui o vetor será dobrado

@@ -28,6 +28,7 @@ int main(){
         }
     }
     printf("%s\n", maiorProduto);
+    printf("%d\n", qtdTotal);
     
     return 0;
 }

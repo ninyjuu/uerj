@@ -14,20 +14,19 @@ int main(){
     
     struct Produto p[qtdTotal];
     float valorEstoque= 0.0;
-    int maiorValor;
-    char maiorProduto[20];
+    int maiorValor= 0;
+    int indiceMaior= 0;
     
     for (int i=0; i< qtdTotal; i++){
-        maiorValor= p[0].preco*p[0].qtd;
         printf("nome, preco e quantidade do produto %d: ", i+1);
         scanf("%s %f %d", p[i].nome, &p[i].preco, &p[i].qtd);
         valorEstoque= p[i].preco*p[i].qtd;
         if (valorEstoque> maiorValor){
             maiorValor= valorEstoque;
-            maiorProduto= p[i].nome;
+            indiceMaior= i;
         }
     }
-    printf("%s\n", maiorProduto);
+    printf("%s\n", p[indiceMaior].nome);
     printf("%d\n", qtdTotal);
     
     return 0;

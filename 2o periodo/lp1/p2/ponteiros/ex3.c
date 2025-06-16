@@ -2,7 +2,7 @@
 
 void inverterVetor(int *v, int n) {
     int *inicio= v;
-    int *fim= v+n-1;
+    int *fim = &v[n - 1];
     int temp;
     while(inicio<fim) {
         temp= *inicio;

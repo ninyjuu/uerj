@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-int contarPares (int *vetor, int tamanho){
-    int cont = 0;
+float mediaVetor (int *vetor, int tamanho){
+    float soma= 0;
     for (int i=0; i<tamanho; i++){
-        if (vetor[i]%2==0) cont++;
+        soma+= vetor[i];
     }
-    return cont;
+    return soma/tamanho;
 }
 
 int main(){
@@ -15,6 +15,6 @@ int main(){
     for (int i=0; i<tam; i++){
         scanf("%d", &v[i]);
     }
-    printf("%d", contarPares(v,tam));
+    printf("%f", mediaVetor(v,tam));
     return 0;
 }

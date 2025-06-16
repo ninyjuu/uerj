@@ -1,11 +1,10 @@
 #include <stdio.h>
 
-int contarPares (int *vetor, int tamanho){
-    int cont = 0;
+int procuraValor(int *vetor, int tamanho, int x){
     for (int i=0; i<tamanho; i++){
-        if (vetor[i]%2==0) cont++;
+        if (vetor[i]==x) return i+1;
     }
-    return cont;
+    return -1;
 }
 
 int main(){
@@ -15,6 +14,8 @@ int main(){
     for (int i=0; i<tam; i++){
         scanf("%d", &v[i]);
     }
-    printf("%d", contarPares(v,tam));
+    int val;
+    scanf("%d", &val);
+    printf("%d", procuraValor(v,tam,val));
     return 0;
 }

@@ -21,13 +21,15 @@ int main(){
 
     cabeca-> prox= segundo;
     segundo-> prox= terceiro;
-    terceiro-> prox= NULL;
+    terceiro-> prox= cabeca;
 
     No *atual= cabeca;
-    while (atual != cabeca){
+    do{
         printf("%d", atual-> valor);
         atual= atual-> prox;
     }
+
+    while (atual != cabeca);
 
     return 0;
 }

@@ -6,7 +6,7 @@ public class CPF {
         if (isCPF(cpf)) {
             System.out.println("CPF valido");
         } else {
-            System.out.println("CPF inválido, tente novamente");
+            System.out.println("CPF invalido, tente novamente");
         }
     }
 
@@ -14,8 +14,8 @@ public class CPF {
         Scanner scanner= new Scanner(System.in);
         System.out.println("Digite o CPF: ");
         String cpfDigitado= scanner.nextLine();
+        scanner.close();
         return cpfDigitado.replaceAll("\\D", "");
-        scanner.close()
     }
 
     public static boolean isCPF(String cpf){
@@ -30,7 +30,7 @@ public class CPF {
         try{
             int peso= 10;
             int sm= 0;
-            int num, dig10, dig11;
+            int num, r, dig10, dig11;
 
             for (int i=0; i<9; i++) {
                 num= cpf.charAt(i)- '0';
@@ -38,11 +38,12 @@ public class CPF {
                 peso= peso-1;
             }
 
-            r= 11- (sm % 11);
-            if (r==10 || r==11){
+            r= sm % 11;
+            if (r==0 || r==1){
                 dig10= '0';
-            } else dig10= (char)(r+'0');
+            } else dig10= (char)((11-r)+'0');
 
+            sm=0;
             peso= 11;
             for (int i=0; i<10; i++) {
                 num= cpf.charAt(i)- '0';
@@ -50,10 +51,10 @@ public class CPF {
                 peso= peso-1;
             }
 
-            r= 11- (sm % 11);
-            if (r==10 || r==11){
+            r= sm % 11;
+            if (r==0 || r==1){
                 dig11= '0';
-            } else dig11= (char)(r+'0');
+            } else dig11= (char)((11-r)+'0');
 
             if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10)))
                  return(true);
@@ -69,6 +70,3 @@ public class CPF {
         cpf.substring(6,9)+ "-" + cpf.substring(9,11));
     }
 }
-
-
-

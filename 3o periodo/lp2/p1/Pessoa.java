@@ -1,32 +1,121 @@
-import java.time.LocalDate;
+import java.util.Scanner;
+import java.util.GregorianCalendar;
 
-public class Pessoa {
-    String nome;
-    String sobrenome;
-    LocalDate data;
-    float peso;
-    float altura;
-    String genero;
+class Pessoa {
+    private String nome;
+    private String sobreNome;
+    private GregorianCalendar dataNasc;
+    private long numCPF;
+    private float peso;
+    private float altura;
+    private static int contador;
 
-    public Pessoa(String nome, String sobrenome, LocalDate data, float peso, float altura, String genero) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.data = data;
-        this.peso = peso;
-        this.altura = altura;
-        this.genero = genero;
+    public void lerDados() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("nome: ");
+        setNome(scanner.nextLine());
+        System.out.println("sobrenome: ");
+        setSobreNome(scanner.nextLine());
+        System.out.println("nascimento (dd/mm/aaaa): ");
+        setDataNasc(scanner.nextLine());
+        System.out.println("CPF: ");
+        setNumCPF(scanner.nextLine());
+        System.out.println("peso: ");
+        setPeso(Float.parseFloat(scanner.nextLine()));
+        System.out.println("altura: ");
+        setAltura(Float.parseFloat(scanner.nextLine()));
+        scanner.close();
+        Pessoa.numPessoas(this);
     }
 
-    public void mostrar() {
-        System.out.println("Nome: " + this.nome + " " + this.sobrenome);
-        System.out.println("Data de Nascimento: " + this.data);
-        System.out.println("Peso: " + this.peso + " kg");
-        System.out.println("Altura: " + this.altura + " m");
-        System.out.println("Gênero: " + this.genero);
+    public void setNome(String nome) {
+        if (nome.length() > 0) {
+            this.nome = nome;
+        } else {
+            System.out.println("nome invalido");
+        }
     }
 
-    public static void main(String[] args) {
-        Pessoa novaPessoa = new Pessoa("Ana", "Silva", LocalDate.of(1995, 8, 20), 65.5f, 1.70f, "Feminino");
-        novaPessoa.mostrar();
+    public String getNome() {
+        return nome;
+    }
+
+    public void setSobreNome(String sobreNome) {
+        if (sobreNome.length() > 0) {
+            this.sobreNome = sobreNome;
+        } else {
+            System.out.println("sobrenome invalido");
+        }
+    }
+
+    public String getSobreNome() {
+        return sobreNome;
+    }
+
+    public void setDataNasc(String dataNasc) {
+        String[] partes = dataNasc.trim().split("/");
+        int dia = Integer.parseInt(partes[0]);
+        int mes = Integer.parseInt(partes[1]) - 1; // Meses começam em 0
+        int ano = Integer.parseInt(partes[2]);
+        if (dia >= 1 && dia <= 31 && mes >= 0 && mes <= 11 && ano >= 1900 && ano <= 2025) {
+            this.dataNasc = new GregorianCalendar(ano, mes, dia);
+        } else {
+            System.out.println("nascimento invalido");
+        }
+    }
+
+    public GregorianCalendar getDataNasc() {
+        return dataNasc;
+    }
+
+    public void setNumCPF(String numCPF) {
+        try {
+            long cpf = Long.parseLong(numCPF);
+            if (numCPF.length() == 11) {
+                this.numCPF = cpf;
+            } else {
+                System.out.println("cpf invalido");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("cpf invalido");
+        }
+    }
+
+    public long getNumCPF() {
+        return numCPF;
+    }
+
+    public void setPeso(float peso) {
+        if (peso >= 1.0 && peso <= 300.0) {
+            this.peso = peso;
+        } else {
+            System.out.println("peso invalido");
+        }
+    }
+
+    public float getPeso() {
+        return peso;
+    }
+
+    public void setAltura(float altura) {
+        if (altura >= 1.0 && altura <= 2.2) {
+            this.altura = altura;
+        } else {
+            System.out.println("altura invalida");
+        }
+    }
+
+    public float getAltura() {
+        return altura;
+    }
+
+    public static void numPessoas(Pessoa pessoa) {
+        if (pessoa.nome != null && pessoa.sobreNome != null && pessoa.dataNasc != null && pessoa.numCPF != 0 && pessoa.peso != 0 && pessoa.altura != 0) {
+            contador++;
+        }
+    }
+
+    public static int getNumPessoas() {
+        return contador;
     }
 }

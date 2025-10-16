@@ -1,7 +1,9 @@
+package modelo;
 import java.util.Scanner;
 import java.util.GregorianCalendar;
+import java.util.Calendar;
 
-class Pessoa {
+public class Pessoa {
     private String nome;
     private String sobreNome;
     private GregorianCalendar dataNasc;
@@ -9,6 +11,15 @@ class Pessoa {
     private float peso;
     private float altura;
     private static int contador;
+
+    public Pessoa(String nome, String sobreNome, GregorianCalendar dataNasc, long numCPF, float peso, float altura) {
+        this.nome = nome;
+        this.sobreNome = sobreNome;
+        this.dataNasc = dataNasc;
+        this.numCPF = numCPF;
+        this.peso = peso;
+        this.altura = altura;
+    }
 
     public void lerDados() {
         Scanner scanner = new Scanner(System.in);
@@ -55,7 +66,7 @@ class Pessoa {
     public void setDataNasc(String dataNasc) {
         String[] partes = dataNasc.trim().split("/");
         int dia = Integer.parseInt(partes[0]);
-        int mes = Integer.parseInt(partes[1]) - 1; // Meses começam em 0
+        int mes = Integer.parseInt(partes[1]) - 1;
         int ano = Integer.parseInt(partes[2]);
         if (dia >= 1 && dia <= 31 && mes >= 0 && mes <= 11 && ano >= 1900 && ano <= 2025) {
             this.dataNasc = new GregorianCalendar(ano, mes, dia);
@@ -110,7 +121,8 @@ class Pessoa {
     }
 
     public static void numPessoas(Pessoa pessoa) {
-        if (pessoa.nome != null && pessoa.sobreNome != null && pessoa.dataNasc != null && pessoa.numCPF != 0 && pessoa.peso != 0 && pessoa.altura != 0) {
+        if (pessoa.nome != null && pessoa.sobreNome != null && pessoa.dataNasc != null
+        && pessoa.numCPF != 0 && pessoa.peso != 0 && pessoa.altura != 0) {
             contador++;
         }
     }
@@ -118,4 +130,26 @@ class Pessoa {
     public static int getNumPessoas() {
         return contador;
     }
+
+    public int calcularIdade(){
+        int idade;
+        Calendar hoje= new GregorianCalendar();
+        Calendar nascimento= this.dataNasc;
+        int mesAtual= hoje.get(Calendar.MONTH);
+        int anoAtual= hoje.get(Calendar.YEAR);
+        int mesNasc= nascimento.get(Calendar.MONTH);
+        int anoNasc= nascimento.get(Calendar.MONTH);
+        if (mesNasc > mesAtual){
+            idade= anoAtual- anoNasc;
+        } else{
+            idade= anoAtual- anoNasc- 1;
+        }
+        return idade;
+    }
+
+    public String toString(){
+        return "Nome: " + this.nome + this.sobreNome + "\nIdade: " + this.calcularIdade()+
+        "\nCPF: " + this.numCPF + "\nPeso: " + this.peso + "\nAltura: " + this.altura;
+    }
 }
+ 

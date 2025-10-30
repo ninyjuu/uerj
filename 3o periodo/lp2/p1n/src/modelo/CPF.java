@@ -1,73 +1,74 @@
 package modelo;
-import java.util.Scanner;
 
-public class CPF {
-    public static void main(String[] args){
-        String cpf = lerCPF();
-        if (isCPF(cpf)) {
-            System.out.println("CPF valido");
-        } else {
-            System.out.println("CPF invalido, tente novamente");
-        }
-    }
+public class ValidaCPF {
 
-    public static String lerCPF(){
-        Scanner scanner= new Scanner(System.in);
-        System.out.println("Digite o CPF: ");
-        String cpfDigitado= scanner.nextLine();
-        scanner.close();
-        return cpfDigitado.replaceAll("\\D", "");
-    }
+    public static boolean isCPF(String cpf) {
+        if (cpf == null) return false;
+        
+        String cpfLimpo = cpf.replaceAll("\\D", ""); 
 
-    public static boolean isCPF(String cpf){
-        if (cpf.equals("00000000000") || cpf.equals("11111111111") ||
-        cpf.equals("22222222222") || cpf.equals("33333333333") ||
-        cpf.equals("44444444444") || cpf.equals("55555555555") ||
-        cpf.equals("66666666666") || cpf.equals("77777777777") ||
-        cpf.equals("88888888888") || cpf.equals("99999999999") ||
-        (cpf.length() != 11))
-        return(false);
+        if (cpfLimpo.length() != 11 || 
+            cpfLimpo.equals("00000000000") || cpfLimpo.equals("11111111111") ||
+            cpfLimpo.equals("22222222222") || cpfLimpo.equals("33333333333") ||
+            cpfLimpo.equals("44444444444") || cpfLimpo.equals("55555555555") ||
+            cpfLimpo.equals("66666666666") || cpfLimpo.equals("77777777777") ||
+            cpfLimpo.equals("88888888888") || cpfLimpo.equals("99999999999"))
+            return false;
 
-        try{
-            int peso= 10;
-            int sm= 0;
-            int num, r, dig10, dig11;
+        char dig10, dig11;
+        int sm, r, num, peso;
 
-            for (int i=0; i<9; i++) {
-                num= cpf.charAt(i)- '0';
-                sm= sm+ (num*peso);
-                peso= peso-1;
+        try {
+            sm = 0;
+            peso = 10;
+            for (int i = 0; i < 9; i++) {
+                num = cpfLimpo.charAt(i) - '0';
+                sm = sm + (num * peso);
+                peso--;
             }
 
-            r= sm % 11;
-            if (r==0 || r==1){
-                dig10= '0';
-            } else dig10= (char)((11-r)+'0');
+            r = sm % 11;
+            if (r == 0 || r == 1) dig10 = '0';
+            else dig10 = (char)((11 - r) + '0');
 
-            sm=0;
-            peso= 11;
-            for (int i=0; i<10; i++) {
-                num= cpf.charAt(i)- '0';
-                sm= sm+ (num*peso);
-                peso= peso-1;
+            sm = 0;
+            peso = 11;
+            for (int i = 0; i < 10; i++) {
+                num = cpfLimpo.charAt(i) - '0';
+                sm = sm + (num * peso);
+                peso--;
             }
 
-            r= sm % 11;
-            if (r==0 || r==1){
-                dig11= '0';
-            } else dig11= (char)((11-r)+'0');
+            r = sm % 11;
+            if (r == 0 || r == 1) dig11 = '0';
+            else dig11 = (char)((11 - r) + '0');
 
-            if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10)))
-                 return(true);
-            else return(false);
+            return (dig10 == cpfLimpo.charAt(9)) && (dig11 == cpfLimpo.charAt(10));
 
         } catch (Exception erro) {
-            return(false);
+            return false;
         }
     }
 
     public static String imprimeCPF(String cpf) {
-        return(cpf.substring(0,3)+ "." + cpf.substring(3,6)+ "." +
-        cpf.substring(6,9)+ "-" + cpf.substring(9,11));
+        String cpfLimpo = cpf.replaceAll("\\D", "");
+        if (cpfLimpo.length() != 11) {
+            return "CPF Inválido/Incompleto";
+        }
+        return String.format("%s.%s.%s-%s", 
+            cpfLimpo.substring(0, 3), 
+            cpfLimpo.substring(3, 6), 
+            cpfLimpo.substring(6, 9), 
+            cpfLimpo.substring(9, 11));
+    }
+
+    public static long toLong(String cpf) {
+        String cpfLimpo = cpf.replaceAll("\\D", "");
+        
+        try {
+             return Long.parseLong(cpfLimpo);
+        } catch (NumberFormatException e) {
+             return 0L; 
+        }
     }
 }

@@ -5,58 +5,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class ValidaData {
-    
-    public static void main(String[] args) {
-        String dataInput = lerData();
-        String[] partes = dataInput.trim().split("\\s+");
-
-        if (partes.length != 3) {
-            System.out.println("Data invalida");
-            return;
-        }
-        
-        String mesString = partes[1];
-        int dia;
-        int ano;
-        int mesNumero;
-
-        try {
-            dia = Integer.parseInt(partes[0]);
-            ano = Integer.parseInt(partes[2]);
-
-            mesNumero = converteMes(mesString);
-            
-            if (mesNumero == -1) {
-                mesNumero = Integer.parseInt(mesString);
-            }
-            
-            if (isDia(dia) && isMes(mesNumero) && isAno(ano) && validarRegrasCalendario(dia, mesNumero, ano)) {
-                System.out.println("Data valida");
-            } else {
-                System.out.println("Data invalida");
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println("Data invalida");
-        }
-    }
-
-    
-    public static String lerData() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Data: ");
-        String data = scanner.nextLine();
-        scanner.close();
-        return data;
-    }
-
     public static boolean isDia(int dia) {
         return dia >= 1 && dia <= 31;
     }
 
     public static int converteMes(String mesString) {
         String mesLower = mesString.trim().toLowerCase();
-        
         switch(mesLower) {
             case "janeiro": case "jan": return 1;
             case "fevereiro": case "fev": return 2;
@@ -76,7 +30,7 @@ public class ValidaData {
 
     public static boolean isMes(int mes) {
         return mes >= 1 && mes <= 12;
-    } 
+    }
 
     public static boolean isAno(int ano) {
         Calendar calendario = new GregorianCalendar();
@@ -97,5 +51,12 @@ public class ValidaData {
             }
         }
         return true;
+    }
+
+    public static boolean validarDataCompleta(int dia, int mes, int ano) {
+        if (isDia(dia) && isMes(mes) && isAno(ano) && validarRegrasCalendario(dia, mes, ano)) {
+            return true;
+        }
+        return false;
     }
 }

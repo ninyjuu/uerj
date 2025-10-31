@@ -1,4 +1,4 @@
-package modelo;
+
 
 import java.util.Scanner;
 import java.util.Calendar;
@@ -14,7 +14,7 @@ public class ValidaData {
         switch(mesLower) {
             case "janeiro": case "jan": return 1;
             case "fevereiro": case "fev": return 2;
-            case "marco": case "mar": return 3;
+            case "marco": case "março": case "mar": return 3;
             case "abril": case "abr": return 4;
             case "maio": case "mai": return 5;
             case "junho": case "jun": return 6;

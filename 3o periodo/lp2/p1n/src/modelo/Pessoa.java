@@ -1,8 +1,7 @@
-package modelo;
 
-import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
+import java.util.Scanner;
 
 public class Pessoa {
     private String nome;
@@ -14,14 +13,20 @@ public class Pessoa {
     private static int contador;
 
     public Pessoa(String nome, String sobreNome, GregorianCalendar dataNasc, long numCPF, float peso, float altura) {
-        setNome(nome);
-        setSobreNome(sobreNome);
-        setDataNasc(dataNasc);
-        setNumCPF(String.valueOf(numCPF));
-        setPeso(peso);
-        setAltura(altura);
+        this.nome = nome;
+        this.sobreNome = sobreNome;
+        this.dataNasc = dataNasc;
+        this.numCPF = numCPF;
+        this.peso = peso;
+        this.altura = altura;
+        
         Pessoa.numPessoas(this);
     }
+
+    public Pessoa(String nome, String sobreNome) {
+        this(nome, sobreNome, null, 0L, 0f, 0f); 
+    }
+
     public void setNome(String nome) {
         if (nome != null && nome.length() > 0) {
             this.nome = nome;

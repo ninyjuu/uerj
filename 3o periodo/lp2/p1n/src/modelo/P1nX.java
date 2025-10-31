@@ -1,11 +1,3 @@
-package app;
-
-import modelo.Pessoa;
-import modelo.Homem;
-import modelo.Mulher;
-import modelo.ValidaCPF;
-import modelo.ValidaData;
-
 import java.util.Scanner;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
@@ -27,20 +19,29 @@ public class P1nX {
         Pessoa primeiraPessoa = criarPessoaPorArgs(args);
         
         if (primeiraPessoa != null) {
-            System.out.println("--- PRIMEIRO CADASTRO (Linha de Comando) ---");
-            System.out.println(primeiraPessoa.toString());
+            exibirPessoaIndividual(primeiraPessoa);
             
-            leituraInterativa(); 
+            leituraInterativa(primeiraPessoa); 
         } 
     }
 
+    private static void exibirPessoaIndividual(Pessoa p) {
+        String genero = (p instanceof Homem) ? "Masculino" : "Feminino";
+        
+        System.out.println("nome: " + p.getNome());
+        System.out.println("sobrenome: " + p.getSobreNome());
+        System.out.println("idade: " + p.calcularIdade());
+        System.out.println("gênero: " + genero);
+        System.out.println("cpf: " + ValidaCPF.imprimeCPF(String.valueOf(p.getNumCPF())));
+        System.out.println("peso: " + String.format("%.1f", p.getPeso()).replace(',', '.'));
+        System.out.println("altura: " + String.format("%.2f", p.getAltura()).replace(',', '.'));
+    }
+
     public static void exibirHelpESair(int argsCount) {
-        System.out.println("ERRO: Número incorreto de parâmetros (" + argsCount + " recebidos, 9 esperados).");
-        System.out.println("--------------------------------------------------------------------------------");
-        System.out.println("Sintaxe correta: java P1nX <genero> <nome> <sobre> <dia> <mes> <ano> <CPF> <peso> <altura>");
-        System.out.println("  Gênero: H para Homem, M para Mulher.");
-        System.out.println("  Mes: Número (1 a 12) ou por extenso (ex: Outubro).");
-        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("erro: número incorreto de parâmetros (" + argsCount + " recebidos, 9 esperados).");
+        System.out.println("sintaxe correta: java P1nX <genero> <nome> <sobre> <dia> <mes> <ano> <CPF> <peso> <altura>");
+        System.out.println("  gênero: h para homem, m para mulher.");
+        System.out.println("  mes: número (1 a 12) ou por extenso (ex: outubro).");
     }
 
     public static Pessoa criarPessoaPorArgs(String[] args) {
@@ -54,17 +55,17 @@ public class P1nX {
         String alturaStr = args[8];
         
         if (!genero.equalsIgnoreCase("H") && !genero.equalsIgnoreCase("M")) {
-            System.out.println("ERRO: Gênero inválido. Use H ou M.");
+            System.out.println("erro: gênero inválido. use h ou m.");
             return null;
         }
         
         if (nome.length() < 2 || nome.matches(".*\\d.*") || sobreNome.length() < 2 || sobreNome.matches(".*\\d.*")) {
-             System.out.println("ERRO: Nome e Sobrenome não podem ser numéricos ou muito curtos.");
+             System.out.println("erro: nome e sobrenome inválidos.");
              return null;
         }
 
         if (!ValidaCPF.isCPF(cpfStr)) {
-            System.out.println("ERRO: CPF inválido ou inconsistente.");
+            System.out.println("erro: cpf inválido.");
             return null;
         }
         
@@ -80,12 +81,12 @@ public class P1nX {
             }
             
             if (!ValidaData.validarDataCompleta(dia, mesNumero, ano)) {
-                System.out.println("ERRO: Data de Nascimento inválida (fora do limite ou regra de calendário).");
+                System.out.println("erro: data de nascimento inválida.");
                 return null;
             }
             
             if (peso < 1.0f || peso > 300.0f || altura < 1.0f || altura > 2.2f) {
-                 System.out.println("ERRO: Peso ou Altura fora dos limites válidos.");
+                 System.out.println("erro: peso ou altura fora do limite.");
                  return null;
             }
             
@@ -95,58 +96,55 @@ public class P1nX {
             if (genero.equalsIgnoreCase("H")) {
                 return new Homem(nome, sobreNome, dataNasc, numCPF, peso, altura, false); 
             } else {
-                return new Mulher(nome, sobreNome, dataNasc, numCPF, peso, altura, "Não Informado");
+                return new Mulher(nome, sobreNome, dataNasc, numCPF, peso, altura, "não informado");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("ERRO: Um dos parâmetros numéricos (dia, ano, peso, altura) não é válido.");
+            System.out.println("erro: parâmetros numéricos inválidos.");
             return null;
         } catch (Exception e) {
-             System.out.println("ERRO GERAL: Ocorreu um erro ao processar os dados.");
+             System.out.println("erro geral.");
              return null;
         }
     }
     
-    public static void leituraInterativa() {
+    public static void leituraInterativa(Pessoa primeiraPessoa) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\n--- PARTE 2: INÍCIO DA LEITURA INTERATIVA ---");
-
+        
         int numElementos = -1;
         while (numElementos <= 0) {
-            System.out.print("Quantos elementos adicionais você quer criar? (Mínimo 1): ");
+            System.out.print("quantas pessoas a mais deseja inserir? (min. 1): ");
             try {
                 String input = reader.readLine().trim();
                 if (input.isEmpty()) continue;
                 numElementos = Integer.parseInt(input);
                 if (numElementos <= 0) {
-                    System.out.println("ERRO: O número deve ser maior que zero. Tente novamente.");
+                    System.out.println("erro: o número deve ser maior que zero. tente novamente.");
                 }
             } catch (Exception e) {
-                System.out.println("ERRO: Entrada inválida. Por favor, digite um número.");
+                System.out.println("erro: entrada inválida. por favor, digite um número.");
             }
         }
         
-        cadastroPessoas = new Pessoa[numElementos];
-        int elementosAdicionados = 0;
-        
-        System.out.println("--- INICIANDO LEITURA DOS " + numElementos + " ELEMENTOS ---");
+        cadastroPessoas = new Pessoa[numElementos + 1];
+        cadastroPessoas[0] = primeiraPessoa;
+        int elementosAdicionados = 1;
 
-        while (elementosAdicionados < numElementos) {
+        while (elementosAdicionados < cadastroPessoas.length) {
             
             Pessoa novaPessoa = lerDadosPessoa(reader, elementosAdicionados + 1);
 
             if (novaPessoa == null) {
                 if (elementosAdicionados == 0) {
-                    System.out.println("AVISO: Nenhuma pessoa adicionada. Encerrando leitura.");
+                    System.out.println("aviso: nenhuma pessoa adicionada. encerrando leitura.");
                 } else {
-                    System.out.println("Leitura interrompida pelo usuário.");
+                    System.out.println("leitura interrompida.");
                 }
                 break;
             }
 
             cadastroPessoas[elementosAdicionados] = novaPessoa;
             elementosAdicionados++;
-            System.out.println("Objeto #" + elementosAdicionados + " criado e armazenado.");
         }
         
         exibirEContarElementos(elementosAdicionados);
@@ -154,123 +152,144 @@ public class P1nX {
     
     public static Pessoa lerDadosPessoa(BufferedReader reader, int indice) {
         
-        String genero = "", nome = "", sobreNome = "", cpfStr = "", dataStr = "", pesoStr = "", alturaStr = "";
+        String genero = "", nome = "", sobreNome = "", cpfStr = "", dataStr = "";
         float peso = 0.0f;
         float altura = 0.0f;
         
         try {
             while (true) {
-                System.out.print("\nCadastro #" + indice + " - Gênero (H/M, ENTER para parar): ");
-                genero = reader.readLine().trim();
-                if (genero.isEmpty()) return null;
-                if (genero.equalsIgnoreCase("H") || genero.equalsIgnoreCase("M")) break;
-                System.out.println("ERRO: Gênero inválido. Use H ou M.");
-            }
-            
-            while (true) {
-                System.out.print("Nome: ");
+                System.out.print("insira o nome: ");
                 nome = reader.readLine().trim();
                 if (!nome.matches(".*\\d.*") && nome.length() >= 2) break;
-                System.out.println("ERRO: Nome inválido.");
+                System.out.println("erro: nome inválido.");
             }
             
             while (true) {
-                System.out.print("Sobrenome: ");
+                System.out.print("insira o sobrenome: ");
                 sobreNome = reader.readLine().trim();
                 if (!sobreNome.matches(".*\\d.*") && sobreNome.length() >= 2) break;
-                System.out.println("ERRO: Sobrenome inválido.");
+                System.out.println("erro: sobrenome inválido.");
             }
 
             while (true) {
-                System.out.print("CPF (11 dígitos): ");
+                System.out.print("cpf: ");
                 cpfStr = reader.readLine().trim();
                 if (ValidaCPF.isCPF(cpfStr)) break;
-                System.out.println("ERRO: CPF inválido ou inconsistente. Tente novamente.");
+                System.out.println("erro: cpf inválido. tente novamente.");
             }
             
             while (true) {
-                System.out.print("Data de Nascimento (dd/mm/aaaa): ");
+                System.out.print("data de nascimento: ");
                 dataStr = reader.readLine().trim();
                 
                 try {
-                    String[] dataPartes = dataStr.split("/");
+                    String[] dataPartes = dataStr.contains("/") ? dataStr.split("/") : dataStr.split(" ");
                     if (dataPartes.length != 3) throw new Exception();
 
                     int dia = Integer.parseInt(dataPartes[0]);
-                    int mes = Integer.parseInt(dataPartes[1]);
                     int ano = Integer.parseInt(dataPartes[2]);
+                    String mesString = dataPartes[1];
+                    int mesNumero = ValidaData.converteMes(mesString);
+                    
+                    if (mesNumero == -1) {
+                        mesNumero = Integer.parseInt(mesString);
+                    }
 
-                    if (ValidaData.validarDataCompleta(dia, mes, ano)) break;
+                    if (ValidaData.validarDataCompleta(dia, mesNumero, ano)) break;
 
                 } catch (Exception e) {
                 }
-                System.out.println("ERRO: Data inválida (formato dd/mm/aaaa ou calendário). Tente novamente.");
+                System.out.println("erro: data inválida. tente novamente.");
             }
 
             while (true) {
-                System.out.print("Peso (Ex: 75.5): ");
-                pesoStr = reader.readLine().trim();
+                System.out.print("peso: ");
+                String pesoStr = reader.readLine().trim(); 
                 try {
-                    peso = Float.parseFloat(pesoStr);
-                    if (peso >= 1.0f && peso <= 300.0f) break;
+                    float tempPeso = Float.parseFloat(pesoStr);
+                    if (tempPeso >= 1.0f && tempPeso <= 300.0f) {
+                        peso = tempPeso;
+                        break;
+                    }
                 } catch (NumberFormatException e) {}
-                System.out.println("ERRO: Peso fora dos limites válidos (1.0 - 300.0).");
+                System.out.println("erro: peso fora dos limites.");
             }
             
             while (true) {
-                System.out.print("Altura (Ex: 1.75): ");
-                alturaStr = reader.readLine().trim();
+                System.out.print("altura: ");
+                String alturaStr = reader.readLine().trim(); 
                 try {
-                    altura = Float.parseFloat(alturaStr);
-                    if (altura >= 1.0f && altura <= 2.2f) break;
+                    float tempAltura = Float.parseFloat(alturaStr);
+                    if (tempAltura >= 1.0f && tempAltura <= 2.2f) {
+                        altura = tempAltura;
+                        break;
+                    }
                 } catch (NumberFormatException e) {}
-                System.out.println("ERRO: Altura fora dos limites válidos (1.0 - 2.2).");
+                System.out.println("erro: altura fora dos limites.");
+            }
+
+            while (true) {
+                System.out.print("esta pessoa é do gênero feminino ou masculino (f ou m)? ");
+                genero = reader.readLine().trim();
+                if (genero.equalsIgnoreCase("M") || genero.equalsIgnoreCase("F")) break;
+                System.out.println("erro: gênero inválido.");
             }
             
             long numCPF = ValidaCPF.toLong(cpfStr);
             
-            String[] dataPartes = dataStr.split("/");
+            String[] dataPartes = dataStr.contains("/") ? dataStr.split("/") : dataStr.split(" ");
             int dia = Integer.parseInt(dataPartes[0]);
-            int mes = Integer.parseInt(dataPartes[1]);
+            String mesString = dataPartes[1];
             int ano = Integer.parseInt(dataPartes[2]);
-            GregorianCalendar dataNasc = new GregorianCalendar(ano, mes - 1, dia);
+            
+            int mesNumero = ValidaData.converteMes(mesString);
+            if (mesNumero == -1) {
+                mesNumero = Integer.parseInt(mesString);
+            }
+            
+            GregorianCalendar dataNasc = new GregorianCalendar(ano, mesNumero - 1, dia);
 
-            if (genero.equalsIgnoreCase("H")) {
+            if (genero.equalsIgnoreCase("M")) {
                 return new Homem(nome, sobreNome, dataNasc, numCPF, peso, altura, false); 
             } else {
-                return new Mulher(nome, sobreNome, dataNasc, numCPF, peso, altura, "Não Informado");
+                return new Mulher(nome, sobreNome, dataNasc, numCPF, peso, altura, "não informado");
             }
 
         } catch (Exception e) {
-            System.out.println("ERRO: Falha crítica na entrada de dados. Reiniciando a leitura.");
             return null;
         }
     }
     
-    public static void exibirEContarElementos(int totalElementosValidos) {
-        if (totalElementosValidos == 0) return;
+    private static String formatarSaidaPessoa(Pessoa p) {
+        StringBuilder sb = new StringBuilder();
+        
+        String genero = (p instanceof Homem) ? "Masculino" : "Feminino";
+        
+        sb.append("nome: ").append(p.getNome()).append("\n");
+        sb.append("sobrenome: ").append(p.getSobreNome()).append("\n");
+        sb.append("idade: ").append(p.calcularIdade()).append("\n");
+        sb.append("gênero: ").append(genero).append("\n");
+        sb.append("cpf: ").append(ValidaCPF.imprimeCPF(String.valueOf(p.getNumCPF()))).append("\n");
+        sb.append("peso: ").append(String.format("%.1f", p.getPeso()).replace(',', '.')).append("\n");
+        sb.append("altura: ").append(String.format("%.2f", p.getAltura()).replace(',', '.'));
 
-        System.out.println("\n--- EXIBIÇÃO DE TODOS OS REGISTROS ---");
-        int contHomem = 0;
-        int contMulher = 0;
+        return sb.toString();
+    }
+    
+    public static void exibirEContarElementos(int totalElementosValidos) {
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("informações inseridas:");
 
         for (int i = 0; i < totalElementosValidos; i++) {
             Pessoa p = cadastroPessoas[i];
             
-            System.out.println("\nRegistro #" + (i + 1));
-            System.out.println(p.toString());
-            
-            if (p instanceof Homem) {
-                contHomem++;
-            } else if (p instanceof Mulher) {
-                contMulher++;
+            if (i > 0) {
+                System.out.println();
             }
+            
+            System.out.println(formatarSaidaPessoa(p));
         }
 
-        System.out.println("\n--- ESTATÍSTICAS FINAIS ---");
-        System.out.println("Total de objetos criados (Pessoa.getNumPessoas()): " + Pessoa.getNumPessoas());
-        System.out.println("Total de objetos exibidos no array: " + totalElementosValidos);
-        System.out.println("Homens (instancia de Homem): " + contHomem);
-        System.out.println("Mulheres (instancia de Mulher): " + contMulher);
+        System.out.println("\nprograma encerrado.");
     }
 }

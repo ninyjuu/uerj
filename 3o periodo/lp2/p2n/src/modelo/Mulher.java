@@ -14,7 +14,7 @@ public class Mulher extends PessoaIMC {
     }
 
     public String resultIMC() {
-        float imc = calculaIMC();
+        double imc = calculaIMC();
         if (imc < 19.0) return "abaixo do peso ideal";
         else if (imc <= 25.8) return "peso ideal";
         else return "acima do peso ideal";
@@ -33,6 +33,6 @@ public class Mulher extends PessoaIMC {
     }
 
     public String toString() {
-        return "gênero: feminino\n" + super.toString() + "\ntipo Cabelo: " + this.tipoCabelo;
+        return "gênero: feminino\n" + super.toString() + "\ntipo cabelo: " + this.tipoCabelo;
     }
 }

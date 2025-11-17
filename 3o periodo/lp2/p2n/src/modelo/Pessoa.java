@@ -104,7 +104,7 @@ public class Pessoa {
 
     public String toString(){
         String idadeStr = (this.dataNasc != null) ? String.valueOf(this.calcularIdade()) : "N/A";
-        return String.format("Nome: %s %s\nIdade: %s\nCPF: %s",
+        return String.format("nome: %s %s\nidade: %s\nCPF: %s",
             this.nome,
             this.sobreNome,
             idadeStr,

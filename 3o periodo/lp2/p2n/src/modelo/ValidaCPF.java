@@ -51,7 +51,7 @@ public class ValidaCPF {
     public static String imprimeCPF(String cpf) {
         String cpfLimpo = cpf.replaceAll("\\D", "");
         if (cpfLimpo.length() != 11) {
-            return "CPF Inválido/Incompleto";
+            return "CPF Inválido/incompleto";
         }
         return String.format("%s.%s.%s-%s", 
             cpfLimpo.substring(0, 3), 

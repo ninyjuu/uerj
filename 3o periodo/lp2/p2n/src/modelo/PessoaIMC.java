@@ -4,9 +4,8 @@ public abstract class PessoaIMC extends Pessoa{
     protected double peso;
     protected double altura;
 
-    public PessoaIMC(String nome, String sobreNome, long numCPF,
-    GregorianCalendar dataNasc, double peso, double altura){
-        super(nome, sobreNome, numCPF, dataNasc);
+    public PessoaIMC(String nome, String sobreNome, GregorianCalendar dataNasc, long numCPF, double peso, double altura){
+        super(nome, sobreNome, dataNasc, numCPF);
         this.peso= peso;
         this.altura= altura;
     }
@@ -48,7 +47,7 @@ public abstract class PessoaIMC extends Pessoa{
         double imc = calculaIMC();
         String analise = resultIMC();
         
-        return String.format("%s\nPeso: %.1f\nAltura: %.2f\nIMC: %.2f (%s)",
+        return String.format("%s\npeso: %.1f\naltura: %.2f\nIMC: %.2f (%s)",
             pessoaInfo,
             this.peso,
             this.altura,

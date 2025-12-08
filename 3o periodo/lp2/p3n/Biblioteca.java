@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
                 
                 if (tipo.equalsIgnoreCase("usuario") && obj instanceof HashMap) {
                     this.cadastroUsuarios = (HashMap<Long, Usuario>) obj;
-                    System.out.println("Ccdastro de usuarios carregado de: " + nomeArquivo);
+                    System.out.println("cadastro de usuarios carregado de: " + nomeArquivo);
                 } else if (tipo.equalsIgnoreCase("livro") && obj instanceof HashMap) {
                     this.cadastroLivros = (HashMap<Integer, Livro>) obj;
                     System.out.println("acervo de livros carregado de: " + nomeArquivo);

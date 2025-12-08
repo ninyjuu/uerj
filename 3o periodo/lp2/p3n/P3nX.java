@@ -219,25 +219,39 @@ public class P3nX {
             }
             long cpf = ValidaCPF.toLong(cpfStr); 
             
-            System.out.print("data de nascimento (dd/mm/aaaa): ");
-            String dataStr = scanner.nextLine();
+            // --- LÓGICA DE DATA CORRIGIDA ---
+            String dataStr = "";
+            int dia = 0, mesNumero = 0, ano = 0;
             
-            String[] partes = dataStr.split("/");
-            if (partes.length != 3) {
-                 System.err.println("erro: formato da data invalido. use dd/mm/aaaa.");
-                 return;
+            while (true) {
+                System.out.print("data de nascimento (dd/mm/aaaa ou dd mes aaaa): ");
+                dataStr = scanner.nextLine().trim();
+                
+                try {
+                    String[] partes = dataStr.contains("/") ? dataStr.split("/") : dataStr.split(" ");
+                    if (partes.length != 3) throw new Exception("Formato invalido");
+                    
+                    dia = Integer.parseInt(partes[0]);
+                    mesNumero = ValidaData.converteMes(partes[1]);
+                    ano = Integer.parseInt(partes[2]);
+                    
+                    // Se o mês não for uma palavra válida, tenta converter como número
+                    if (mesNumero == -1) {
+                         mesNumero = Integer.parseInt(partes[1]);
+                    }
+                    
+                    if (ValidaData.validarDataCompleta(dia, mesNumero, ano)) {
+                        break; 
+                    }
+                } catch (Exception e) {
+                    // Captura NumberFormatException ou erro de formato
+                }
+                System.err.println("erro: data de nascimento inconsistente (formato ou calendario).");
             }
+            // FIM DA LÓGICA DE DATA CORRIGIDA
             
-            int dia = Integer.parseInt(partes[0]);
-            int mes = Integer.parseInt(partes[1]);
-            int ano = Integer.parseInt(partes[2]);
-            
-            if (!ValidaData.validarDataCompleta(dia, mes, ano)) {
-                 System.err.println("erro: data de nascimento inconsistente (calendario).");
-                 return;
-            }
-            
-            GregorianCalendar dataNasc = new GregorianCalendar(ano, mes - 1, dia);
+            // CRIAÇÃO FINAL: GregorianCalendar(Ano, Mês - 1, Dia)
+            GregorianCalendar dataNasc = new GregorianCalendar(ano, mesNumero - 1, dia);
             
             System.out.print("endereco: ");
             String endereco = scanner.nextLine();

@@ -30,12 +30,12 @@ public class EmprestPara implements Serializable {
         
         String statusDevolucao;
         if (dataDevolucao == null) {
-            statusDevolucao = "Pendente";
+            statusDevolucao = "pendente";
         } else {
             statusDevolucao = sdf.format(dataDevolucao.getTime());
         }
 
-        return String.format("Usuário CPF: %d | Locação: %s | Devolução: %s",
+        return String.format("usuário CPF: %d | locação: %s | devolução: %s",
             this.cpfUsuario,
             dataLocFormatada,
             statusDevolucao

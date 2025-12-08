@@ -42,12 +42,12 @@ public class Emprest implements Serializable {
         
         String statusDevolucao;
         if (dataDevolucao == null) {
-            statusDevolucao = "Pendente";
+            statusDevolucao = "pendente";
         } else {
             statusDevolucao = sdf.format(dataDevolucao.getTime());
         }
 
-        return String.format("Livro: %d | Empréstimo: %s | Devolução: %s",
+        return String.format("livro: %d | empréstimo: %s | devolução: %s",
             this.codLivro,
             dataEmprestFormatada,
             statusDevolucao

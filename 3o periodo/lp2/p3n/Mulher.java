@@ -36,6 +36,6 @@ public class Mulher extends PessoaIMC {
     }
 
     public String toString() {
-        return "Gênero: Feminino\n" + super.toString() + "\nTipo Cabelo: " + this.tipoCabelo;
+        return "gênero: feminino\n" + super.toString() + "\ntipo cabelo: " + this.tipoCabelo;
     }
 }

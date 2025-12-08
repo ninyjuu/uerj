@@ -26,7 +26,7 @@ public class Usuario extends Pessoa implements Serializable {
         Emprest novoEmprestimo = new Emprest(dataLocacao, codLivro);
         this.hist.add(novoEmprestimo);
         this.numLivrosEmprestados++;
-        System.out.println("Empréstimo registrado para o livro: " + codLivro);
+        System.out.println("empréstimo registrado para o livro: " + codLivro);
     }
     
     public void decrementaLivrosAtivos() {
@@ -38,7 +38,7 @@ public class Usuario extends Pessoa implements Serializable {
     public String toString() {
         String infoPessoa = super.toString();
         
-        return String.format("%s\nEndereço: %s\nLivros Ativos: %d\nHistórico de Empréstimos: %d registro(s)",
+        return String.format("%s\nendereço: %s\nlivros ativos: %d\nhistórico de empréstimos: %d registro(s)",
             infoPessoa,
             this.endereco,
             this.numLivrosEmprestados,

@@ -64,9 +64,6 @@ public class P3nX {
     public static void criarBancoDeDadosExemplo() {
         Biblioteca bdTemp = new Biblioteca();
         
-        GregorianCalendar dataEmprestimoAtivo = new GregorianCalendar();
-        GregorianCalendar dataDevolvida = new GregorianCalendar(2025, 1, 10);
-        
         Usuario u1 = new Usuario("Ana", "Silva", new GregorianCalendar(1990, 0, 1), 11111111111L, "Rua A, 1");
         Usuario u2 = new Usuario("Bruno", "Lima", new GregorianCalendar(1985, 5, 5), 22222222222L, "Rua B, 2");
         bdTemp.cadastraUsuario(u1);
@@ -210,18 +207,37 @@ public class P3nX {
             String nome = scanner.nextLine();
             System.out.print("sobrenome: ");
             String sobrenome = scanner.nextLine();
-            System.out.print("cpf (apenas numeros): ");
-            long cpf = scanner.nextLong();
-            scanner.nextLine();
-            System.out.print("data de nascimento (aaaa/mm/dd): ");
+            
+            String cpfStr = "";
+            while (true) {
+                System.out.print("cpf (apenas numeros): ");
+                cpfStr = scanner.nextLine().trim(); 
+                if (ValidaCPF.isCPF(cpfStr)) {
+                    break;
+                }
+                System.err.println("erro: cpf invalido ou formato incorreto. tente novamente.");
+            }
+            long cpf = ValidaCPF.toLong(cpfStr); 
+            
+            System.out.print("data de nascimento (dd/mm/aaaa): ");
             String dataStr = scanner.nextLine();
             
             String[] partes = dataStr.split("/");
             if (partes.length != 3) {
-                 System.err.println("erro: formato da data invalido.");
+                 System.err.println("erro: formato da data invalido. use dd/mm/aaaa.");
                  return;
             }
-            GregorianCalendar dataNasc = new GregorianCalendar(Integer.parseInt(partes[0]), Integer.parseInt(partes[1]) - 1, Integer.parseInt(partes[2]));
+            
+            int dia = Integer.parseInt(partes[0]);
+            int mes = Integer.parseInt(partes[1]);
+            int ano = Integer.parseInt(partes[2]);
+            
+            if (!ValidaData.validarDataCompleta(dia, mes, ano)) {
+                 System.err.println("erro: data de nascimento inconsistente (calendario).");
+                 return;
+            }
+            
+            GregorianCalendar dataNasc = new GregorianCalendar(ano, mes - 1, dia);
             
             System.out.print("endereco: ");
             String endereco = scanner.nextLine();

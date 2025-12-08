@@ -32,6 +32,6 @@ public class Homem extends PessoaIMC {
     }
 
     public String toString() {
-        return "Gênero: Masculino\n" + super.toString() + String.format("\nReservista: %s", (this.reservista ? "Sim" : "Não"));
+        return "gênero: masculino\n" + super.toString() + String.format("\nreservista: %s", (this.reservista ? "sim" : "não"));
     }
 }
